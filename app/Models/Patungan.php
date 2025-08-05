@@ -18,4 +18,9 @@ class Patungan extends Model
     {
         return $this->belongsTo(Komoditas::class, 'id_komoditas', 'id_komoditas');
     }
+
+    public function transaksi()
+    {
+        return $this->hasMany(Transaksi::class, 'id_patungan', 'id_patungan');
+    }
 }

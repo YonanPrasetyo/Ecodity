@@ -13,4 +13,9 @@ class Komoditas extends Model
     public $incrementing = true;
     public $keyType = 'int';
     public $timestamps = true;
+
+    public function patungan()
+    {
+        return $this->hasMany(Patungan::class, 'id_komoditas', 'id_komoditas');
+    }
 }
