@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -13,6 +14,16 @@ class UserController extends Controller
         return view('user.index', [
             'users' => $users
         ]);
+    }
+
+    public function registerForm()
+    {
+        return view('user.register');
+    }
+
+    public function loginForm()
+    {
+        return view('user.login');
     }
 
     public function register(Request $request)
@@ -32,31 +43,37 @@ class UserController extends Controller
                 'password' => bcrypt($request->password),
             ]);
 
-            return response()->json([
-                'success' => true,
-                'message' => 'Register berhasil.',
-            ]);
+            return redirect()->route('login')->with('success', 'Register berhasil, Silahkan login.');
         } catch (Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
     }
 
-    public function login(Request $Requset)
+    public function login(Request $request)
     {
         try {
-            $Requset->validate([
-                'email' => 'required|string|email|max:255',
-                'password' => 'required|string|min:8',
+            $credentials = $request->validate([
+                'email' => ['required', 'email'],
+                'password' => ['required'],
             ]);
 
-            if (auth()->attempt($Requset->only('email', 'password'))) {
-                return redirect()->route('user.index')->with('success', 'Login berhasil.');
+            if (Auth::attempt($credentials)) {
+                $request->session()->regenerate();
+                return redirect()->route(Auth::user()->role . '.dashboard')->with('success', 'Login berhasil.');
             }
 
-            return redirect()->back()->with('error', 'Email atau password salah.');
+            return back()->withErrors([
+                'email' => 'Email atau password salah',
+            ]);
         } catch (Exception $e) {
-            return redirect()->back()->with('error', $e->getMessage());
+            return response()->json(['message' => 'error', 'error' => $e]);
         }
+    }
+
+    public function logout()
+    {
+        auth()->logout();
+        return redirect()->route('login')->with('success', 'Logout berhasil.');
     }
 
 }
