@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\PatunganController;
+use App\Http\Controllers\KomoditasController;
 use App\Http\Middleware\RoleMiddleware;
 
 Route::get('/', function () {
@@ -21,6 +23,11 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
         return view('welcome');
     })->name('dashboard');
     Route::get('/user', [UserController::class, 'index'])->name('user.index');
+
+    Route::get('/patungan', [PatunganController::class, 'index'])->name('patungan.index');
+    Route::get('/patungan/{id}', [PatunganController::class, 'show'])->name('patungan.show');
+
+    Route::get('/komoditas', [KomoditasController::class, 'index'])->name('komoditas.index');
 });
 
 

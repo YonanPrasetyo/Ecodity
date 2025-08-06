@@ -299,58 +299,7 @@ return [
     */
 
     'menu' => [
-        // Navbar items:
-        [
-            'type' => 'navbar-search',
-            'text' => 'search',
-            'topnav_right' => true,
-        ],
-        [
-            'type' => 'fullscreen-widget',
-            'topnav_right' => true,
-        ],
 
-        // Sidebar items:
-        [
-            'type' => 'sidebar-menu-search',
-            'text' => 'search',
-        ],
-        [
-            'text' => 'blog',
-            'url' => 'admin/blog',
-            'can' => 'manage-blog',
-        ],
-        [
-            'text' => 'komoditas',
-            'url' => '/komoditas',
-            'icon' => 'fas fa-fw fa-cubes',
-        ],
-        [
-            'text' => 'transaksi',
-            'url' => '/transaksi',
-            'icon' => 'far fa-fw fa-money-bill-alt',
-        ],
-        [
-            'text' => 'pelanggan',
-            'url' => '/user',
-            'icon' => 'far fa-fw fa-user',
-        ],
-        ['header' => 'account_settings'],
-        [
-            'text' => 'profile',
-            'url' => 'admin/settings',
-            'icon' => 'fas fa-fw fa-user',
-        ],
-        [
-            'text' => 'change_password',
-            'url' => 'admin/settings',
-            'icon' => 'fas fa-fw fa-lock',
-        ],
-        [
-            'text' => 'logout',
-            'url' => 'logout',
-            'icon' => 'fas fa-fw fa-sign-out-alt',
-        ]
     ],
 
     /*
