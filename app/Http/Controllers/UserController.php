@@ -11,19 +11,19 @@ class UserController extends Controller
     public function index()
     {
         $users = User::where('role', 'pengguna')->get(['id_user', 'nama', 'email', 'alamat']);
-        return view('user.index', [
+        return view('admin.user.index', [
             'users' => $users
         ]);
     }
 
     public function registerForm()
     {
-        return view('user.register');
+        return view('register');
     }
 
     public function loginForm()
     {
-        return view('user.login');
+        return view('login');
     }
 
     public function register(Request $request)

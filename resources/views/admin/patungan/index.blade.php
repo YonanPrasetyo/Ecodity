@@ -3,10 +3,21 @@
 @section('title', 'Data Patungan')
 
 @section('content_header')
-    <h1>Data Patungan</h1>
+    <div class="d-flex justify-content-between align-items-center">
+        <h1>Data Patungan</h1>
+
+        <button
+            class="btn btn-xs btn-default text-primary mx-1 shadow" \
+            title="Tambah"
+            data-toggle="modal"
+            data-target="#modalAddPatungan">
+            <i class="fa fa-lg fa-fw fa-plus"></i> Tambah
+        </button>
+    </div>
 @endsection
 
 @section('content')
+
 <div class="row">
     @foreach($patungan as $item)
     <div class="col-md-6 col-lg-4">
@@ -18,6 +29,8 @@
                 <div class="card-tools">
                     @if($item['status'] == 'dibuka')
                         <span class="badge badge-success">{{ ucfirst($item['status']) }}</span>
+                    @elseif($item['status'] == 'full')
+                        <span class="badge badge-danger">{{ ucfirst($item['status']) }}</span>
                     @else
                         <span class="badge badge-secondary">{{ ucfirst($item['status']) }}</span>
                     @endif
@@ -76,20 +89,32 @@
                             {{ date('d/m/Y', strtotime($item['created_at'])) }}
                         </small>
                     </div>
-                    <div class="col-6 text-right">
-                        {{-- detail --}}
+                </div>
+                <div class="d-flex justify-content-end align-items-center">
+                    <div>
                         <a href="{{ route('admin.patungan.show', $item['id_patungan']) }}" class="btn btn-xs btn-default text-teal mx-1 shadow" title="Details">
-                            <i class="fa fa-lg fa-fw fa-eye"></i>
-                        </a>'
-                        {{-- edit --}}
+                            <i class="fa fa-lg fa-fw fa-eye"></i> Detail
+                        </a>
+                    </div>
+                    <div>
                         <button class="btn btn-xs btn-default text-primary mx-1 shadow" title="Edit">
-                            <i class="fa fa-lg fa-fw fa-pen"></i>
+                            <i class="fa fa-lg fa-fw fa-pen"></i> Edit
                         </button>
                     </div>
+                    @if ($item['status'] == 'full')
+                        <div>
+                            <button class="btn btn-xs btn-default text-danger mx-1 shadow" title="Pesan">
+                                <i class="fa fa-lg fa-fw fa-envelope"></i> Pesan
+                            </button>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>
     </div>
     @endforeach
 </div>
+
+@include('admin.patungan.add', ['komoditas' => $komoditas])
+
 @endsection

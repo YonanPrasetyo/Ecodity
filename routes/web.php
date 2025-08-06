@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PatunganController;
 use App\Http\Controllers\KomoditasController;
+use App\Http\Controllers\TransaksiController;
 use App\Http\Middleware\RoleMiddleware;
 
 Route::get('/', function () {
@@ -26,6 +27,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
 
     Route::get('/patungan', [PatunganController::class, 'index'])->name('patungan.index');
     Route::get('/patungan/{id}', [PatunganController::class, 'show'])->name('patungan.show');
+    Route::post('/patungan', [PatunganController::class, 'store'])->name('patungan.store');
 
     Route::get('/komoditas', [KomoditasController::class, 'index'])->name('komoditas.index');
 });
@@ -37,6 +39,10 @@ Route::middleware(['auth', 'role:pengguna'])->prefix('pengguna')->name('pengguna
     Route::get('/dashboard', function () {
         return view('welcome');
     })->name('dashboard');
+
+    Route::get('/patungan', [PatunganController::class, 'indexPengguna'])->name('patungan.index');
+
+    Route::post('/transaksi', [TransaksiController::class, 'store'])->name('transaksi.store');
 });
 
 

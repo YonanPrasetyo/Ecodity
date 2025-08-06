@@ -10,7 +10,7 @@ class KomoditasController extends Controller
     public function index()
     {
         $komoditas = Komoditas::all();
-        return view('komoditas.index', [
+        return view('admin.komoditas.index', [
             'komoditas' => $komoditas
         ]);
     }

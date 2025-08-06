@@ -45,6 +45,14 @@ class ViewServiceProvider extends ServiceProvider
                             'icon' => 'far fa-fw fa-user',
                         ],
                     ];
+                }else if ($role === 'pengguna') {
+                    $sidebar = [
+                        [
+                            'text' => 'patungan',
+                            'url' => '/pengguna/patungan',
+                            'icon' => 'fas fa-fw fa-chart-line',
+                        ],
+                    ];
                 }
 
                 // Bisa tambahkan role lainnya di sini

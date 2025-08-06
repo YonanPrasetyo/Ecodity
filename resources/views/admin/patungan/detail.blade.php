@@ -21,6 +21,8 @@
                 <div class="card-tools">
                     @if($patungan['status'] == 'dibuka')
                         <span class="badge badge-success badge-lg">{{ ucfirst($patungan['status']) }}</span>
+                    @elseif($patungan['status'] == 'full')
+                        <span class="badge badge-danger badge-lg">{{ ucfirst($patungan['status']) }}</span>
                     @else
                         <span class="badge badge-secondary badge-lg">{{ ucfirst($patungan['status']) }}</span>
                     @endif
@@ -155,7 +157,6 @@
                                 <th width="10%">Status</th>
                                 <th width="15%">Tanggal</th>
                                 <th width="15%">Nilai (Rp)</th>
-                                <th width="10%">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -193,16 +194,6 @@
                                 </td>
                                 <td>
                                     <strong>Rp {{ number_format($transaksi['total_patungan'] * $patungan['komoditas']['harga_per_satuan']) }}</strong>
-                                </td>
-                                <td>
-                                    <div class="btn-group" role="group">
-                                        <button class="btn btn-sm btn-info" title="Detail">
-                                            <i class="fas fa-eye"></i>
-                                        </button>
-                                        <button class="btn btn-sm btn-warning" title="Edit">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
-                                    </div>
                                 </td>
                             </tr>
                             @endforeach
