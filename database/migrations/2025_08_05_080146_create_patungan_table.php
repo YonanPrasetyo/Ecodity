@@ -19,7 +19,7 @@ return new class extends Migration
             $table->integer('total');
             $table->bigInteger('harga_total');
             $table->enum('status', ['dibuka', 'full', 'dikirim', 'di gudang', 'selesai'])->default('dibuka');
-            $table->string('bukti_pembelian');
+            $table->string('bukti_pembelian')->nullable();
             $table->timestamps();
         });
     }

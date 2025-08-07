@@ -29,9 +29,11 @@ class UserController extends Controller
     public function register(Request $request)
     {
         try {
+
             $request->validate([
                 'nama' => 'required|string|max:255',
                 'email' => 'required|string|email|max:255|unique:users',
+                'no_hp' => 'required|string|unique:users',
                 'alamat' => 'required|string',
                 'password' => 'required|string|min:8',
             ]);
@@ -39,6 +41,7 @@ class UserController extends Controller
             $user = User::create([
                 'nama' => $request->nama,
                 'email' => $request->email,
+                'no_hp' => $request->no_hp,
                 'alamat' => $request->alamat,
                 'password' => bcrypt($request->password),
             ]);

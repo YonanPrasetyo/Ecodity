@@ -9,7 +9,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form id="formPesanPatungan" method="POST">
+            <form id="formPesanPatungan" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="modal-body">
                     <div class="row">
@@ -36,6 +36,19 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="form-group">
+                        <label for="bukti_pembelian">Bukti Pembelian (max: 2MB)</label>
+                        <div class="input-group">
+                            <input type="file"
+                                   class="form-control"
+                                   id="bukti_pembelian"
+                                   name="bukti_pembelian"
+                                   readonly
+                                   placeholder="0">
+                        </div>
+                    </div>
+
                     <p class="text-muted">Apakah Anda sudah memesan produk di atas ke pabrik?</p>
                 </div>
                 <div class="modal-footer">

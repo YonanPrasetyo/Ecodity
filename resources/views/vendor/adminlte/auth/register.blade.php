@@ -42,6 +42,24 @@
             @enderror
         </div>
 
+        {{-- No Hp field --}}
+        <div class="input-group mb-3">
+            <input type="text" name="no_hp" class="form-control @error('no_hp') is-invalid @enderror"
+                value="{{ old('no_hp') }}" placeholder="No Hp">
+
+            <div class="input-group-append">
+                <div class="input-group-text">
+                    <span class="fas fa-user {{ config('adminlte.classes_auth_icon', '') }}"></span>
+                </div>
+            </div>
+
+            @error('no_hp')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+            @enderror
+        </div>
+
         {{-- Email field --}}
         <div class="input-group mb-3">
             <input type="email" name="email" class="form-control @error('email') is-invalid @enderror"

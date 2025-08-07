@@ -10,7 +10,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form id="formPatungan" action="{{  route('pengguna.transaksi.store') }}" method="POST">
+            <form id="formPatungan" action="{{  route('pengguna.transaksi.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="modal-body">
                     <input type="hidden" id="id_patungan" name="id_patungan">
@@ -55,12 +55,31 @@
                     </div>
 
                     <div class="form-group">
+                        <div class="form-check">
+                            <input type="checkbox" name="diinapkan" id="diinapkan" class="form-check-input">
+                            <label class="form-check-label" for="diinapkan">Diinapkan</label>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
                         <label for="opsi_pengiriman">Opsi Pengiriman</label>
                         <select class="form-control" id="opsi_pengiriman" name="opsi_pengiriman">
                             <option value="dikirim">Dikirim</option>
                             <option value="diambil">Diambil</option>
-                            <option value="diinapkan">Diinapkan</option>
                         </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="bukti_pembayaran">Bukti Pembayaran (max: 2MB)</label>
+                        <div class="input-group">
+                            <input type="file"
+                                   class="form-control"
+                                   id="bukti_pembayaran"
+                                   name="bukti_pembayaran"
+                                   readonly
+                                   placeholder="0">
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">

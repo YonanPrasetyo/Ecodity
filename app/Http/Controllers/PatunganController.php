@@ -33,7 +33,18 @@ class PatunganController extends Controller
                 'total' => 'required|numeric',
             ]);
 
-            $patungan = Patungan::create($request->all());
+            $harga_total = $request->total * Komoditas::find($request->id_komoditas)->harga_per_satuan;
+
+            do {
+                $kode = date('ymdhis') . substr((string) microtime(true), -3);
+            } while (Patungan::where('kode_patungan', $kode)->exists());
+
+            $patungan = Patungan::create([
+                'id_komoditas' => $request->id_komoditas,
+                'total' => $request->total,
+                'harga_total' => $harga_total,
+                'kode_patungan' => $kode,
+            ]);
             return redirect()->route('admin.patungan.index')->with('success', 'Patungan berhasil ditambahkan');
         } catch (Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
@@ -63,10 +74,22 @@ class PatunganController extends Controller
         ]);
     }
 
-    public function pesan($id)
+    public function pesan(Request $request, $id)
     {
+        $validate = $request->validate([
+            'bukti_pembelian' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+        ]);
+
         $patungan = Patungan::find($id);
+
+        $file = $request->file('bukti_pembelian');
+        $fileName = "bukti_pembelian_" . $patungan->kode_patungan . "." . $file->getClientOriginalExtension();
+
+        $path = $file->storeAs('uploads/' . 'bukti_pembelian', $fileName, 'public');
+
+        $patungan->bukti_pembelian = $path;
         $patungan->status = 'dikirim';
+
         $patungan->save();
 
         return redirect()->back()->with('success', 'Patungan berhasil dipesan dan status diubah menjadi dikirim');
