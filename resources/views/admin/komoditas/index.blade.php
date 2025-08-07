@@ -39,7 +39,7 @@ $config = [
                 data-pabrik="' . $data->pabrik . '"
                 data-url-update="' . route('admin.komoditas.update', ['id' => $data->id_komoditas]) . '"
                 title="Edit">
-                <i class="fa fa-lg fa-fw fa-pen"></i> Edit
+                <i class="fa fa-lg fa-fw fa-edit"></i> Edit
             </button>';
 
             $btnDelete = '<button

@@ -55,4 +55,38 @@
 @section('adminlte_js')
     @stack('js')
     @yield('js')
+
+    @if (session('success'))
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil!',
+                text: '{{ session('success') }}',
+                timer: 3000,
+                toast: true,
+                position: 'top-end',
+                background: '#2ecc71',
+                color: '#ffffff',
+                showConfirmButton: false
+            });
+        </script>
+    @endif
+
+    @if (session('error'))
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Gagal!',
+                text: '{{ session('error') }}',
+                timer: 3000,
+                toast: true,
+                position: 'top-end',
+                background: '#dc3545',
+                color: '#ffffff',
+                showConfirmButton: false
+            });
+        </script>
+    @endif
+
+
 @stop
