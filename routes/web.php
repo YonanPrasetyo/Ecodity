@@ -30,6 +30,9 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::post('/patungan', [PatunganController::class, 'store'])->name('patungan.store');
 
     Route::get('/komoditas', [KomoditasController::class, 'index'])->name('komoditas.index');
+    Route::post('/komoditas', [KomoditasController::class, 'store'])->name('komoditas.store');
+    Route::put('/komoditas/{id}', [KomoditasController::class, 'update'])->name('komoditas.update');
+    Route::delete('/komoditas/{id}', [KomoditasController::class, 'delete'])->name('komoditas.delete');
 });
 
 

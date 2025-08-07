@@ -7,7 +7,7 @@
         <h1>Data Patungan</h1>
 
         <button
-            class="btn btn-xs btn-default text-primary mx-1 shadow" \
+            class="btn btn-xs btn-default text-primary mx-1 shadow"
             title="Tambah"
             data-toggle="modal"
             data-target="#modalAddPatungan">

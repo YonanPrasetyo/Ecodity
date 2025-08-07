@@ -28,9 +28,9 @@ $btnDetails = '<button class="btn btn-xs btn-default text-teal mx-1 shadow" titl
                </button>';
 
 $config = [
-    'data' => $users->map(function ($user) use ($btnEdit, $btnDelete, $btnDetails) {
+    'data' => $users->map(function ($user, $index) use ($btnEdit, $btnDelete, $btnDetails) {
         return [
-            $user->id_user,
+            $index + 1,          
             $user->nama,
             $user->email,
             $user->alamat,

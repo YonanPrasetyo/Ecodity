@@ -3,7 +3,17 @@
 @section('title', 'Data Komoditas')
 
 @section('content_header')
-    <h1>Data Komoditas</h1>
+    <div class="d-flex justify-content-between align-items-center">
+        <h1>Data Komoditas</h1>
+
+        <button
+                class="btn btn-xs btn-default text-primary mx-1 shadow"
+                title="Tambah"
+                data-toggle="modal"
+                data-target="#modalAddKomoditas">
+                <i class="fa fa-lg fa-fw fa-plus"></i> Tambah
+        </button>
+    </div>
 @endsection
 
 @section('content')
@@ -17,26 +27,38 @@ $heads = [
     ['label' => 'Actions', 'no-export' => true, 'width' => 5],
 ];
 
-$btnEdit = '<button class="btn btn-xs btn-default text-primary mx-1 shadow" title="Edit">
-                <i class="fa fa-lg fa-fw fa-pen"></i>
-            </button>';
-$btnDelete = '<button class="btn btn-xs btn-default text-danger mx-1 shadow" title="Delete">
-                  <i class="fa fa-lg fa-fw fa-trash"></i>
-              </button>';
-$btnDetails = '<button class="btn btn-xs btn-default text-teal mx-1 shadow" title="Details">
-                   <i class="fa fa-lg fa-fw fa-eye"></i>
-               </button>';
-
 $config = [
-    'data' => $komoditas->map(function ($data) use ($btnEdit, $btnDelete, $btnDetails) {
-        return [
-            $data->id_komoditas,
-            $data->nama_komoditas,
-            $data->harga_per_satuan . ' / ' . $data->satuan,
-            $data->pabrik,
-            '<nobr>'. $btnEdit . $btnDelete . $btnDetails .'</nobr>',
-    ];
-    }),
+    'data' => $komoditas->map(function ($data) {
+            $btnEdit = '<button
+                class="btn btn-xs btn-default text-primary mx-1 shadow btn-edit-komoditas"
+                data-toggle="modal"
+                data-target="#modalEditKomoditas"
+                data-nama-komoditas="' . $data->nama_komoditas . '"
+                data-harga-per-satuan="' . $data->harga_per_satuan . '"
+                data-satuan="' . $data->satuan . '"
+                data-pabrik="' . $data->pabrik . '"
+                data-url-update="' . route('admin.komoditas.update', ['id' => $data->id_komoditas]) . '"
+                title="Edit">
+                <i class="fa fa-lg fa-fw fa-pen"></i> Edit
+            </button>';
+
+            $btnDelete = '<button
+                class="btn btn-xs btn-default text-danger mx-1 shadow btn-delete-komoditas"
+                data-toggle="modal"
+                data-target="#modalDeleteKomoditas"
+                data-url-delete="' . route('admin.komoditas.delete', ['id' => $data->id_komoditas]) . '"
+                title="Delete">
+                <i class="fa fa-lg fa-fw fa-trash"></i> Hapus
+            </button>';
+
+            return [
+                $data->id_komoditas,
+                $data->nama_komoditas,
+                number_format($data->harga_per_satuan, 0, ',', '.') . ' / ' . $data->satuan,
+                $data->pabrik,
+                '<nobr>' . $btnEdit . $btnDelete . '</nobr>',
+            ];
+        }),
     'order' => [[1, 'asc']],
     'columns' => [null, null, null, ['orderable' => false]],
 ];
@@ -53,6 +75,10 @@ $config = [
     @endforeach
 </x-adminlte-datatable>
 
-{{-- Compressed with style options / fill data using the plugin config --}}
+@include("admin.komoditas.add")
+
+@include("admin.komoditas.edit")
+
+@include("admin.komoditas.delete")
 
 @endsection
