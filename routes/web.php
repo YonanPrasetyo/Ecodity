@@ -28,6 +28,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::get('/patungan', [PatunganController::class, 'index'])->name('patungan.index');
     Route::get('/patungan/{id}', [PatunganController::class, 'show'])->name('patungan.show');
     Route::post('/patungan', [PatunganController::class, 'store'])->name('patungan.store');
+    Route::post('/patungan/pesan/{id}', [PatunganController::class, 'pesan'])->name('patungan.pesan');
 
     Route::get('/komoditas', [KomoditasController::class, 'index'])->name('komoditas.index');
     Route::post('/komoditas', [KomoditasController::class, 'store'])->name('komoditas.store');

@@ -62,4 +62,13 @@ class PatunganController extends Controller
             'patungan' => $patungan->toArray()
         ]);
     }
+
+    public function pesan($id)
+    {
+        $patungan = Patungan::find($id);
+        $patungan->status = 'dikirim';
+        $patungan->save();
+
+        return redirect()->back()->with('success', 'Patungan berhasil dipesan dan status diubah menjadi dikirim');
+    }
 }

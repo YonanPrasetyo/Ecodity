@@ -31,6 +31,8 @@
                         <span class="badge badge-success">{{ ucfirst($item['status']) }}</span>
                     @elseif($item['status'] == 'full')
                         <span class="badge badge-danger">{{ ucfirst($item['status']) }}</span>
+                    @elseif($item['status'] == 'dikirim')
+                        <span class="badge badge-info">{{ ucfirst($item['status']) }}</span>
                     @else
                         <span class="badge badge-secondary">{{ ucfirst($item['status']) }}</span>
                     @endif
@@ -103,7 +105,15 @@
                     </div>
                     @if ($item['status'] == 'full')
                         <div>
-                            <button class="btn btn-xs btn-default text-danger mx-1 shadow" title="Pesan">
+                            <button
+                                class="btn btn-xs btn-default text-danger mx-1 shadow btn-pesan-patungan"
+                                data-toggle="modal"
+                                data-target="#modalPesanPatungan"
+                                data-pabrik="{{ $item['komoditas']['pabrik'] }}"
+                                data-nama-komoditas="{{ $item['komoditas']['nama_komoditas'] }}"
+                                data-terkumpul="{{ $item['total_terkumpul'] }} {{ $item['komoditas']['satuan'] }}"
+                                data-url-pesan="{{ route('admin.patungan.pesan', $item['id_patungan']) }}"
+                                title="Pesan">
                                 <i class="fa fa-lg fa-fw fa-envelope"></i> Pesan
                             </button>
                         </div>
@@ -116,5 +126,7 @@
 </div>
 
 @include('admin.patungan.add', ['komoditas' => $komoditas])
+
+@include('admin.patungan.pesan')
 
 @endsection
