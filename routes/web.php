@@ -56,4 +56,10 @@ Route::middleware(['auth', 'role:gudang'])->prefix('gudang')->name('gudang.')->g
     Route::get('/dashboard', function () {
         return view('welcome');
     })->name('dashboard');
+
+    Route::get('/kiriman', [PatunganController::class, 'kiriman'])->name('patungan.kiriman');
+    Route::post('/kiriman/datang/{id}', [PatunganController::class, 'datang'])->name('patungan.datang');
+
+    Route::get('/barang', [TransaksiController::class, 'barang'])->name('patungan.barang');
+
 });

@@ -1,4 +1,4 @@
-<div class="modal fade" id="modalPesanPatungan" tabindex="-1" role="dialog" aria-labelledby="modalPesanPatunganLabel" aria-hidden="true">
+<div class="modal fade" id="modalDatangPatungan" tabindex="-1" role="dialog" aria-labelledby="modalPesanPatunganLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -9,7 +9,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form id="formPesanPatungan" method="POST">
+            <form id="formDatangPatungan" method="POST">
                 @csrf
                 <div class="modal-body">
                     <div class="row">
@@ -31,19 +31,19 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label><strong>Total Terkumpul:</strong></label>
+                                <label><strong>Total Barang:</strong></label>
                                 <p id="modalTotalTerkumpul" class="form-control-static"></p>
                             </div>
                         </div>
                     </div>
-                    <p class="text-muted">Apakah Anda sudah memesan produk di atas ke pabrik?</p>
+                    <p class="text-muted">Apakah Pesanan dari Pabrik sudah datang?</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">
                         <i class="fas fa-times"></i> Batal
                     </button>
                     <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-save"></i> Sudah Pesan
+                        <i class="fas fa-truck"></i> Sudah Datang
                     </button>
                 </div>
             </form>
@@ -54,18 +54,18 @@
 @push('js')
 <script>
 $(document).ready(function () {
-    $('.btn-pesan-patungan').on('click', function () {
+    $('.btn-datang-patungan').on('click', function () {
         // Ambil data dari button
         var pabrik = $(this).data('pabrik');
         var namaKomoditas = $(this).data('nama-komoditas');
         var totalTerkumpul = $(this).data('terkumpul');
-        var urlPesan = $(this).data('url-pesan');
+        var urlDatang = $(this).data('url-datang');
 
         // Set data ke modal
         $('#modalPabrik').text(pabrik);
         $('#modalNamaKomoditas').text(namaKomoditas);
         $('#modalTotalTerkumpul').text(totalTerkumpul);
-        $('#formPesanPatungan').attr('action', urlPesan);
+        $('#formDatangPatungan').attr('action', urlDatang);
     });
 });
 </script>

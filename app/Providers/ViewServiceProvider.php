@@ -53,6 +53,19 @@ class ViewServiceProvider extends ServiceProvider
                             'icon' => 'fas fa-fw fa-chart-line',
                         ],
                     ];
+                }elseif ($role === 'gudang') {
+                    $sidebar = [
+                        [
+                            'text' => 'barang dalam perjalanan',
+                            'url' => '/gudang/kiriman',
+                            'icon' => 'fas fa-fw fa-truck',
+                        ],
+                        [
+                            'text' => 'barang di gudang',
+                            'url' => '/gudang/barang',
+                            'icon' => 'fas fa-fw fa-box-open',
+                        ]
+                    ];
                 }
 
                 // Bisa tambahkan role lainnya di sini

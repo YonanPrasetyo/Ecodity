@@ -71,4 +71,32 @@ class PatunganController extends Controller
 
         return redirect()->back()->with('success', 'Patungan berhasil dipesan dan status diubah menjadi dikirim');
     }
+
+    public function kiriman()
+    {
+        $patungan = Patungan::with(['komoditas', 'transaksi'])->where('status', 'dikirim')->get();
+        $patungan->each(function ($item) {
+            $item->total_terkumpul = $item->transaksi->sum('total_patungan');
+            $item->total_transaksi = $item->transaksi->count();
+        });
+
+        return view('gudang.kiriman.index', [
+            'patungan' => $patungan->toArray()
+        ]);
+    }
+
+    public function datang($id)
+    {
+        $patungan = Patungan::find($id);
+        $patungan->status = 'di gudang';
+        $patungan->save();
+
+        $transaksi = $patungan->transaksi;
+        foreach ($transaksi as $item) {
+            $item->status = 'di gudang';
+            $item->save();
+        }
+
+        return redirect()->back()->with('success', 'Patungan berhasil diterima dan status diubah menjadi di gudang');
+    }
 }

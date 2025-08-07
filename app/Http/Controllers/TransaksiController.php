@@ -28,4 +28,19 @@ class TransaksiController extends Controller
 
         return redirect()->back()->with('success', 'Transaksi berhasil.');
     }
+
+    public function barang()
+    {
+
+        $transaksi = Transaksi::
+                        with(['user', 'patungan', 'patungan.komoditas'])
+                        ->whereHas('patungan', function ($query) {
+                            $query->where('status', 'di gudang');
+                        })
+                        ->get();
+
+        return view('gudang.barang.index', [
+            'transaksi' => $transaksi
+        ]);
+    }
 }

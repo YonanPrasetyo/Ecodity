@@ -33,6 +33,8 @@
                         <span class="badge badge-danger">{{ ucfirst($item['status']) }}</span>
                     @elseif($item['status'] == 'dikirim')
                         <span class="badge badge-info">{{ ucfirst($item['status']) }}</span>
+                    @elseif($item['status'] == 'di gudang')
+                        <span class="badge badge-warning">{{ ucfirst($item['status']) }}</span>
                     @else
                         <span class="badge badge-secondary">{{ ucfirst($item['status']) }}</span>
                     @endif
