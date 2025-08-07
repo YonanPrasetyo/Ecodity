@@ -13,10 +13,13 @@ return new class extends Migration
     {
         Schema::create('patungan', function (Blueprint $table) {
             $table->id('id_patungan');
+            $table->char('kode_patungan', 15)->unique();
             $table->unsignedBigInteger('id_komoditas');
             $table->foreign('id_komoditas')->references('id_komoditas')->on('komoditas')->onDelete('cascade');
             $table->integer('total');
-            $table->enum('status', ['dibuka', 'full', 'dikirim', 'di gudang'])->default('dibuka');
+            $table->bigInteger('harga_total');
+            $table->enum('status', ['dibuka', 'full', 'dikirim', 'di gudang', 'selesai'])->default('dibuka');
+            $table->string('bukti_pembelian');
             $table->timestamps();
         });
     }
