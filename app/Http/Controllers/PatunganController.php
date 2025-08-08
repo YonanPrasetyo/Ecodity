@@ -10,19 +10,23 @@ class PatunganController extends Controller
 {
     public function index()
     {
-        $patungan = Patungan::with(['komoditas', 'transaksi'])->where('status', '!=', 'selesai')->get();
-        $patungan->each(function ($item) {
-            $item->total_terkumpul = $item->transaksi->sum('total_patungan');
-            $item->presentase = $item->total_terkumpul / $item->total * 100;
-            $item->total_transaksi = $item->transaksi->count();
-        });
+        try {
+            $patungan = Patungan::with(['komoditas', 'transaksi'])->where('status', '!=', 'selesai')->get();
+            $patungan->each(function ($item) {
+                $item->total_terkumpul = $item->transaksi->sum('total_patungan');
+                $item->presentase = $item->total_terkumpul / $item->total * 100;
+                $item->total_transaksi = $item->transaksi->count();
+            });
 
-        $komoditas = Komoditas::get(['id_komoditas', 'nama_komoditas']);
+            $komoditas = Komoditas::get(['id_komoditas', 'nama_komoditas']);
 
-        return view('admin.patungan.index', [
-            'patungan' => $patungan->toArray(),
-            'komoditas' => $komoditas->toArray()
-        ]);
+            return view('admin.patungan.index', [
+                'patungan' => $patungan->toArray(),
+                'komoditas' => $komoditas->toArray()
+            ]);
+        }catch (Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
     public function store(Request $request)
@@ -53,90 +57,114 @@ class PatunganController extends Controller
 
     public function show($id)
     {
-        $patungan = Patungan::with(['komoditas', 'transaksi'])->find($id);
-        $patungan->total_terkumpul = $patungan->transaksi->sum('total_patungan');
-        $patungan->presentase = $patungan->total_terkumpul / $patungan->total * 100;
-        $patungan->total_transaksi = $patungan->transaksi->count();
-        return view('admin.patungan.detail', [
-            'patungan' => $patungan->toArray()
-        ]);
+        try {
+            $patungan = Patungan::with(['komoditas', 'transaksi', 'transaksi.user'])->find($id);
+            $patungan->total_terkumpul = $patungan->transaksi->sum('total_patungan');
+            $patungan->presentase = $patungan->total_terkumpul / $patungan->total * 100;
+            $patungan->total_transaksi = $patungan->transaksi->count();
+            return view('admin.patungan.detail', [
+                'patungan' => $patungan->toArray()
+            ]);
+        }catch (Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
     public function indexPengguna()
     {
-        $patungan = Patungan::with(['komoditas', 'transaksi'])->where('status', 'dibuka')->get();
-        $patungan->each(function ($item) {
-            $item->total_terkumpul = $item->transaksi->sum('total_patungan');
-            $item->presentase = $item->total_terkumpul / $item->total * 100;
-        });
-        return view('pengguna.patungan.index', [
-            'patungan' => $patungan->toArray()
-        ]);
+        try {
+            $patungan = Patungan::with(['komoditas', 'transaksi'])->where('status', 'dibuka')->get();
+            $patungan->each(function ($item) {
+                $item->total_terkumpul = $item->transaksi->sum('total_patungan');
+                $item->presentase = $item->total_terkumpul / $item->total * 100;
+            });
+            return view('pengguna.patungan.index', [
+                'patungan' => $patungan->toArray()
+            ]);
+        }catch (Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
     public function pesan(Request $request, $id)
     {
-        $validate = $request->validate([
-            'bukti_pembelian' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-        ]);
+        try {
+            $validate = $request->validate([
+                'bukti_pembelian' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            ]);
 
-        $patungan = Patungan::find($id);
+            $patungan = Patungan::find($id);
 
-        $file = $request->file('bukti_pembelian');
-        $fileName = "bukti_pembelian_" . $patungan->kode_patungan . "." . $file->getClientOriginalExtension();
+            $file = $request->file('bukti_pembelian');
+            $fileName = "bukti_pembelian_" . $patungan->kode_patungan . "." . $file->getClientOriginalExtension();
 
-        $path = $file->storeAs('uploads/' . 'bukti_pembelian', $fileName, 'public');
+            $path = $file->storeAs('uploads/' . 'bukti_pembelian', $fileName, 'public');
 
-        $patungan->bukti_pembelian = $path;
-        $patungan->status = 'dikirim';
+            $patungan->bukti_pembelian = $path;
+            $patungan->status = 'dikirim';
 
-        $patungan->save();
+            $patungan->save();
 
-        return redirect()->back()->with('success', 'Patungan berhasil dipesan dan status diubah menjadi dikirim');
+            return redirect()->back()->with('success', 'Patungan berhasil dipesan dan status diubah menjadi dikirim');
+        }catch (Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
     public function kiriman()
     {
-        $patungan = Patungan::with(['komoditas', 'transaksi'])->where('status', 'dikirim')->get();
-        $patungan->each(function ($item) {
-            $item->total_terkumpul = $item->transaksi->sum('total_patungan');
-            $item->total_transaksi = $item->transaksi->count();
-        });
+        try {
+            $patungan = Patungan::with(['komoditas', 'transaksi'])->where('status', 'dikirim')->get();
+            $patungan->each(function ($item) {
+                $item->total_terkumpul = $item->transaksi->sum('total_patungan');
+                $item->total_transaksi = $item->transaksi->count();
+            });
 
-        return view('gudang.kiriman.index', [
-            'patungan' => $patungan->toArray()
-        ]);
+            return view('gudang.kiriman.index', [
+                'patungan' => $patungan->toArray()
+            ]);
+        }catch (Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
     public function datang($id)
     {
-        $patungan = Patungan::find($id);
-        $patungan->status = 'di gudang';
-        $patungan->save();
+        try {
+            $patungan = Patungan::find($id);
+            $patungan->status = 'di gudang';
+            $patungan->save();
 
-        $transaksi = $patungan->transaksi;
-        foreach ($transaksi as $item) {
-            $item->status = 'di gudang';
-            $item->save();
+            $transaksi = $patungan->transaksi;
+            foreach ($transaksi as $item) {
+                $item->status = 'di gudang';
+                $item->save();
+            }
+
+            return redirect()->back()->with('success', 'Patungan berhasil diterima dan status diubah menjadi di gudang');
+        }catch (Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
         }
-
-        return redirect()->back()->with('success', 'Patungan berhasil diterima dan status diubah menjadi di gudang');
     }
 
     public function riwayat()
     {
-        $patungan = Patungan::with(['komoditas', 'transaksi'])->where('status', 'selesai')->get();
-        $patungan->each(function ($item) {
-            $item->total_terkumpul = $item->transaksi->sum('total_patungan');
-            $item->presentase = $item->total_terkumpul / $item->total * 100;
-            $item->total_transaksi = $item->transaksi->count();
-        });
+        try {
+            $patungan = Patungan::with(['komoditas', 'transaksi'])->where('status', 'selesai')->get();
+            $patungan->each(function ($item) {
+                $item->total_terkumpul = $item->transaksi->sum('total_patungan');
+                $item->presentase = $item->total_terkumpul / $item->total * 100;
+                $item->total_transaksi = $item->transaksi->count();
+            });
 
-        $komoditas = Komoditas::get(['id_komoditas', 'nama_komoditas']);
+            $komoditas = Komoditas::get(['id_komoditas', 'nama_komoditas']);
 
-        return view('admin.riwayat.index', [
-            'patungan' => $patungan->toArray(),
-            'komoditas' => $komoditas->toArray()
-        ]);
+            return view('admin.riwayat.index', [
+                'patungan' => $patungan->toArray(),
+                'komoditas' => $komoditas->toArray()
+            ]);
+        }catch (Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 }

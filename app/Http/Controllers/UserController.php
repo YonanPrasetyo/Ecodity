@@ -10,10 +10,14 @@ class UserController extends Controller
 {
     public function index()
     {
-        $users = User::where('role', 'pengguna')->get(['id_user', 'nama', 'email', 'alamat']);
-        return view('admin.user.index', [
-            'users' => $users
-        ]);
+        try{
+            $users = User::where('role', 'pengguna')->get(['id_user', 'nama', 'email', 'alamat']);
+            return view('admin.user.index', [
+                'users' => $users
+            ]);
+        }catch (Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
     public function registerForm()

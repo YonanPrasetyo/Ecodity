@@ -80,8 +80,10 @@ $config = [
                             <i class="fa fa-lg fa-fw fa-box"></i> Kirim
                           </button>';
         }elseif ($item['opsi_pengiriman'] == 'dikirim' && $item['status'] == 'dikirim' && !$item['status'] != 'selesai') {
-            $actionBtn = '<button
-                            class="btn btn-xs btn-default text-success mx-1 shadow btn-diambil"
+            $actionBtn =
+                        '<div class="d-flex flex-column">' .
+                          '<button
+                            class="btn btn-xs btn-default text-success my-1 shadow btn-diambil"
                             data-toggle="modal"
                             data-target="#modalDiambil"
                             data-url-pdf="' . route('gudang.transaksi.invoice', ['id' => $item['id_transaksi']]) . '"
@@ -90,14 +92,15 @@ $config = [
                             <i class="fa fa-lg fa-fw fa-check"></i> Diterima
                           </button>' .
                           '<button
-                            class="btn btn-xs btn-default text-warning mx-1 shadow btn-kembali"
+                            class="btn btn-xs btn-default text-warning mb-1 shadow btn-kembali"
                             data-toggle="modal"
                             data-target="#modalKembali"
                             data-url="' . route('gudang.transaksi.kembali', ['id' => $item['id_transaksi']]) . '"
                             title="Kembali ke Gudang">
                             <i class="fa fa-lg fa-fw fa-undo"></i> Kembali ke Gudang
-                          </button>'
-                          ;
+                          </button>' .
+                        '</div>'
+                        ;
         }
 
         return [

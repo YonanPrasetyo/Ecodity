@@ -5,6 +5,8 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Patungan;
+use App\Models\Transaksi;
 
 class ViewServiceProvider extends ServiceProvider
 {
@@ -28,11 +30,14 @@ class ViewServiceProvider extends ServiceProvider
                 $role = Auth::user()->role;
 
                 if ($role === 'admin') {
+                    $dashboardUrl = route('admin.dashboard');
                     $sidebar = [
                         [
                             'text' => 'patungan',
                             'url' => '/admin/patungan',
                             'icon' => 'fas fa-fw fa-chart-line',
+                            'label' => Patungan::where('status', 'full')->count(),
+                            'label_color' => 'danger',
                         ],
                         [
                             'text' => 'komoditas',
@@ -51,6 +56,7 @@ class ViewServiceProvider extends ServiceProvider
                         ]
                     ];
                 }else if ($role === 'pengguna') {
+                    $dashboardUrl = route('pengguna.dashboard');
                     $sidebar = [
                         [
                             'text' => 'patungan',
@@ -61,6 +67,8 @@ class ViewServiceProvider extends ServiceProvider
                             'text' => 'transaksi',
                             'url' => '/pengguna/transaksi',
                             'icon' => 'fas fa-fw fa-cash-register',
+                            'label' => Transaksi::where('status', 'di gudang')->where('opsi_pengiriman', 'diambil')->where('id_user', Auth::user()->id_user)->count(),
+                            'label_color' => 'danger',
                         ],
                         [
                             'text' => 'riwayat',
@@ -69,16 +77,21 @@ class ViewServiceProvider extends ServiceProvider
                         ]
                     ];
                 }elseif ($role === 'gudang') {
+                    $dashboardUrl = route('gudang.dashboard');
                     $sidebar = [
                         [
                             'text' => 'barang dalam perjalanan',
                             'url' => '/gudang/kiriman',
                             'icon' => 'fas fa-fw fa-truck',
+                            'label' => Patungan::where('status', 'dikirim')->count(),
+                            'label_color' => 'danger',
                         ],
                         [
                             'text' => 'barang di gudang',
                             'url' => '/gudang/barang',
                             'icon' => 'fas fa-fw fa-box-open',
+                            'label' => Transaksi::where('status', 'di gudang')->where('opsi_pengiriman', '!=', 'diinapkan')->count(),
+                            'label_color' => 'danger',
                         ],
                     ];
                 }
@@ -89,12 +102,13 @@ class ViewServiceProvider extends ServiceProvider
                     'adminlte.menu' => array_merge([
                         // Navbar items:
                         [
-                            'type' => 'navbar-search',
-                            'text' => 'search',
+                            'type' => 'fullscreen-widget',
                             'topnav_right' => true,
                         ],
                         [
-                            'type' => 'fullscreen-widget',
+                            'text' => 'logout',
+                            'url' => 'logout',
+                            'icon' => 'fas fa-fw fa-sign-out-alt',
                             'topnav_right' => true,
                         ],
 
@@ -105,22 +119,23 @@ class ViewServiceProvider extends ServiceProvider
                         ],
                     ], $sidebar ?? [], [
                         ['header' => 'account_settings'],
-                        [
-                            'text' => 'profile',
-                            'url' => 'admin/settings',
-                            'icon' => 'fas fa-fw fa-user',
-                        ],
-                        [
-                            'text' => 'change_password',
-                            'url' => 'admin/settings',
-                            'icon' => 'fas fa-fw fa-lock',
-                        ],
+                        // [
+                        //     'text' => 'profile',
+                        //     'url' => 'admin/settings',
+                        //     'icon' => 'fas fa-fw fa-user',
+                        // ],
+                        // [
+                        //     'text' => 'change_password',
+                        //     'url' => 'admin/settings',
+                        //     'icon' => 'fas fa-fw fa-lock',
+                        // ],
                         [
                             'text' => 'logout',
                             'url' => 'logout',
                             'icon' => 'fas fa-fw fa-sign-out-alt',
                         ]
-                    ])
+                        ]),
+                    'adminlte.dashboard_url' => $dashboardUrl,
                 ]);
             }
         });

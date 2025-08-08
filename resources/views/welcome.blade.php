@@ -10,7 +10,7 @@
     <div class="container-fluid">
         <div class="row justify-content-center align-items-center">
             <div class="col-md-8 text-center">
-                <i class="fas fa-leaf text-success fa-3x mb-3"></i>
+                <i class="fas fa-seedling text-success fa-3x mb-3"></i>
                 <h2 class="mb-3">Selamat Datang di <strong>Ecodity</strong>!</h2>
 
                 <div class="alert alert-success">

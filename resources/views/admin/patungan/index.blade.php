@@ -101,9 +101,9 @@
                         </a>
                     </div>
                     <div>
-                        <button class="btn btn-xs btn-default text-primary mx-1 shadow" title="Edit">
-                            <i class="fa fa-lg fa-fw fa-pen"></i> Edit
-                        </button>
+                        {{-- <button class="btn btn-xs btn-default text-primary mx-1 shadow" title="Tambah Kuota">
+                            <i class="fa fa-lg fa-fw fa-pen"></i> Tambah Kuota
+                        </button> --}}
                     </div>
                     @if ($item['status'] == 'full')
                         <div>

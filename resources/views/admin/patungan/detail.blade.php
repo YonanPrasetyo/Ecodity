@@ -151,7 +151,7 @@
                         <thead class="bg-light">
                             <tr>
                                 <th width="5%">No</th>
-                                <th width="15%">ID User</th>
+                                <th width="15%">Nama</th>
                                 <th width="15%">Jumlah Patungan</th>
                                 <th width="15%">Opsi Pengiriman</th>
                                 <th width="10%">Status</th>
@@ -165,7 +165,7 @@
                             <tr>
                                 <td>{{ $index + 1 }}</td>
                                 <td>
-                                    <strong>{{ $transaksi['id_user'] }}</strong>
+                                    <strong>{{ $transaksi['user']['nama'] }}</strong>
                                 </td>
                                 <td>
                                     <span class="badge badge-primary badge-lg">
