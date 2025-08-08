@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
+use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\Transaksi;
 use App\Models\Patungan;
 use Illuminate\Http\Request;
@@ -103,5 +105,25 @@ class TransaksiController extends Controller
         $transaksi->save();
 
         return redirect()->back()->with('success', 'barang gagal dikirim dan dikembalikan ke gudang');
+    }
+
+    public function index()
+    {
+        $transaksi = Transaksi::with(['patungan.komoditas', 'user'])->where('id_user', Auth::user()->id_user)->get();
+
+        return view('pengguna.transaksi.index', [
+            'transaksi' => $transaksi
+        ]);
+    }
+
+    public function invoice($id)
+    {
+        $transaksi = Transaksi::with(['patungan.komoditas', 'user'])->find($id);
+
+        $pdf = Pdf::loadView('pdf.invoice', [
+            'transaksi' => $transaksi
+        ])->setPaper('a4', 'portrait');
+
+        return $pdf->stream('invoice.pdf');
     }
 }

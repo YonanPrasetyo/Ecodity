@@ -52,6 +52,11 @@ class ViewServiceProvider extends ServiceProvider
                             'url' => '/pengguna/patungan',
                             'icon' => 'fas fa-fw fa-chart-line',
                         ],
+                        [
+                            'text' => 'transaksi',
+                            'url' => '/pengguna/transaksi',
+                            'icon' => 'fas fa-fw fa-cash-register',
+                        ]
                     ];
                 }elseif ($role === 'gudang') {
                     $sidebar = [

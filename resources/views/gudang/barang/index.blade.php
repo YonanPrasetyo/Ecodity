@@ -65,6 +65,7 @@ $config = [
                             class="btn btn-xs btn-default text-success mx-1 shadow btn-diambil"
                             data-toggle="modal"
                             data-target="#modalDiambil"
+                            data-url-pdf="' . route('gudang.transaksi.invoice', ['id' => $item['id_transaksi']]) . '"
                             data-url="' . route('gudang.transaksi.diambil', ['id' => $item['id_transaksi']]) . '"
                             title="Sudah Diambil">
                             <i class="fa fa-lg fa-fw fa-check"></i> Diambil
@@ -83,6 +84,7 @@ $config = [
                             class="btn btn-xs btn-default text-success mx-1 shadow btn-diambil"
                             data-toggle="modal"
                             data-target="#modalDiambil"
+                            data-url-pdf="' . route('gudang.transaksi.invoice', ['id' => $item['id_transaksi']]) . '"
                             data-url="' . route('gudang.transaksi.diambil', ['id' => $item['id_transaksi']]) . '"
                             title="Sudah Dikirim">
                             <i class="fa fa-lg fa-fw fa-check"></i> Diterima

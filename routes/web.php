@@ -46,7 +46,10 @@ Route::middleware(['auth', 'role:pengguna'])->prefix('pengguna')->name('pengguna
 
     Route::get('/patungan', [PatunganController::class, 'indexPengguna'])->name('patungan.index');
 
+    Route::get('/transaksi', [TransaksiController::class, 'index'])->name('transaksi.index');
     Route::post('/transaksi', [TransaksiController::class, 'store'])->name('transaksi.store');
+
+    Route::get('/invoice/{id}', [TransaksiController::class, 'invoice'])->name('transaksi.invoice');
 });
 
 
@@ -65,5 +68,7 @@ Route::middleware(['auth', 'role:gudang'])->prefix('gudang')->name('gudang.')->g
     Route::post('/diambil/{id}', [TransaksiController::class, 'diambil'])->name('transaksi.diambil');
     Route::post('/dikirim/{id}', [TransaksiController::class, 'dikirim'])->name('transaksi.dikirim');
     Route::post('/kembali/{id}', [TransaksiController::class, 'kembali'])->name('transaksi.kembali');
+
+    Route::get('/invoice/{id}', [TransaksiController::class, 'invoice'])->name('transaksi.invoice');
 
 });
