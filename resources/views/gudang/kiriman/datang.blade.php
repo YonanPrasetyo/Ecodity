@@ -3,7 +3,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="modalPesanPatunganLabel">
-                    <i class="fas fa-envelope"></i> Pesan Patungan
+                    <i class="fas fa-truck"></i> Barang Datang
                 </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -12,30 +12,35 @@
             <form id="formDatangPatungan" method="POST">
                 @csrf
                 <div class="modal-body">
+
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label><strong>Pabrik:</strong></label>
                                 <p id="modalPabrik" class="form-control-static"></p>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
+
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label><strong>Komoditas:</strong></label>
                                 <p id="modalNamaKomoditas" class="form-control-static"></p>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
+
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label><strong>Total Barang:</strong></label>
                                 <p id="modalTotalTerkumpul" class="form-control-static"></p>
                             </div>
                         </div>
                     </div>
+
+                    <div class="text-center">
+                        <label for="bukti_pembelian">Bukti Pembelian</label>
+                        <img id="preview-bukti-img" src="" alt="Bukti Pembelian" class="img-fluid rounded shadow" style="max-height: 70vh;">
+                    </div>
+
                     <p class="text-muted">Apakah Pesanan dari Pabrik sudah datang?</p>
                 </div>
                 <div class="modal-footer">
@@ -60,12 +65,14 @@ $(document).ready(function () {
         var namaKomoditas = $(this).data('nama-komoditas');
         var totalTerkumpul = $(this).data('terkumpul');
         var urlDatang = $(this).data('url-datang');
+        var urlGambar = $(this).data('url-gambar');
 
         // Set data ke modal
         $('#modalPabrik').text(pabrik);
         $('#modalNamaKomoditas').text(namaKomoditas);
         $('#modalTotalTerkumpul').text(totalTerkumpul);
         $('#formDatangPatungan').attr('action', urlDatang);
+        $('#preview-bukti-img').attr('src', urlGambar);
     });
 });
 </script>

@@ -62,6 +62,7 @@
                             data-nama-komoditas="{{ $item['komoditas']['nama_komoditas'] }}"
                             data-terkumpul="{{ $item['total_terkumpul'] }} {{ $item['komoditas']['satuan'] }}"
                             data-url-datang="{{ route('gudang.patungan.datang', $item['id_patungan']) }}"
+                            data-url-gambar="{{ asset('storage/' . $item['bukti_pembelian']) }}"
                             title="Datang">
                             <i class="fa fa-lg fa-fw fa-truck"></i> Datang
                         </button>

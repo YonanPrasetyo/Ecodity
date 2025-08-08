@@ -157,6 +157,7 @@
                                 <th width="10%">Status</th>
                                 <th width="15%">Tanggal</th>
                                 <th width="15%">Nilai (Rp)</th>
+                                <th width="10%">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -195,6 +196,18 @@
                                 <td>
                                     <strong>Rp {{ number_format($transaksi['total_patungan'] * $patungan['komoditas']['harga_per_satuan']) }}</strong>
                                 </td>
+                                <td>
+                                    <div class="btn-group">
+                                        <button
+                                            type="button"
+                                            data-toggle="modal"
+                                            data-target="#modal-bukti-transaksi"
+                                            data-url="{{ asset('storage/' . $transaksi['bukti_pembayaran']) }}"
+                                            class="btn btn-sm btn-info btn-preview-bukti-transaksi">
+                                            <i class="fas fa-eye"></i> Bukti Transaksi
+                                        </button>
+                                    </div>
+                                </td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -219,4 +232,7 @@
         </div>
     </div>
 </div>
+
+@include('admin.patungan.bukti_pembayaran')
+
 @endsection

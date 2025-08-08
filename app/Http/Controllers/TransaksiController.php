@@ -18,7 +18,7 @@ class TransaksiController extends Controller
 
         $diinapkan = false;
         if($request->diinapkan) {
-            $diinapkan - true;
+            $diinapkan = true;
         }
 
         do {
@@ -59,5 +59,49 @@ class TransaksiController extends Controller
         return view('gudang.barang.index', [
             'transaksi' => $transaksi
         ]);
+    }
+
+    public function diambil($id)
+    {
+        try {
+            $transaksi = Transaksi::find($id);
+            $transaksi->status = 'selesai';
+            $transaksi->save();
+
+            $idPatungan = $transaksi->id_patungan;
+
+            $semuaSelesai = Transaksi::where('id_patungan', $idPatungan)
+                ->where('status', '!=', 'selesai')
+                ->doesntExist();
+
+            if ($semuaSelesai) {
+                $patungan = Patungan::find($idPatungan);
+                $patungan->status = 'selesai';
+                $patungan->save();
+            }
+
+
+            return redirect()->back()->with('success', 'barang sudah diambil');
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
+
+    public function dikirim($id)
+    {
+        $transaksi = Transaksi::find($id);
+        $transaksi->status = 'dikirim';
+        $transaksi->save();
+
+        return redirect()->back()->with('success', 'barang sedang dikirim');
+    }
+
+    public function kembali($id)
+    {
+        $transaksi = Transaksi::find($id);
+        $transaksi->status = 'di gudang';
+        $transaksi->save();
+
+        return redirect()->back()->with('success', 'barang gagal dikirim dan dikembalikan ke gudang');
     }
 }

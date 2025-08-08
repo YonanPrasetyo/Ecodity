@@ -8,7 +8,7 @@ use App\Http\Controllers\TransaksiController;
 use App\Http\Middleware\RoleMiddleware;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('dashboard');
 });
 
 Route::get('/register', [UserController::class, 'registerForm'])->name('register');
@@ -61,5 +61,9 @@ Route::middleware(['auth', 'role:gudang'])->prefix('gudang')->name('gudang.')->g
     Route::post('/kiriman/datang/{id}', [PatunganController::class, 'datang'])->name('patungan.datang');
 
     Route::get('/barang', [TransaksiController::class, 'barang'])->name('patungan.barang');
+
+    Route::post('/diambil/{id}', [TransaksiController::class, 'diambil'])->name('transaksi.diambil');
+    Route::post('/dikirim/{id}', [TransaksiController::class, 'dikirim'])->name('transaksi.dikirim');
+    Route::post('/kembali/{id}', [TransaksiController::class, 'kembali'])->name('transaksi.kembali');
 
 });

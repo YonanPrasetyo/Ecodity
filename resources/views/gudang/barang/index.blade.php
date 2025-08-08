@@ -59,22 +59,40 @@ $config = [
                 $pengirimanBadge = '<span class="badge badge-primary">' . ucfirst($item['opsi_pengiriman']) . '</span>';
         }
 
-        if ($item['opsi_pengiriman'] == 'diambil' || $item['opsi_pengiriman'] == 'diinapkan') {
-            # sudah diambil
-            $actionBtn = '<button class="btn btn-xs btn-default text-success mx-1 shadow" title="Sudah Diambil">
-                            <i class="fa fa-lg fa-fw fa-check"></i> Sudah Diambil
+        $actionBtn = '';
+        if ($item['opsi_pengiriman'] == 'diambil' && $item['status'] != 'selesai') {
+            $actionBtn = '<button
+                            class="btn btn-xs btn-default text-success mx-1 shadow btn-diambil"
+                            data-toggle="modal"
+                            data-target="#modalDiambil"
+                            data-url="' . route('gudang.transaksi.diambil', ['id' => $item['id_transaksi']]) . '"
+                            title="Sudah Diambil">
+                            <i class="fa fa-lg fa-fw fa-check"></i> Diambil
                           </button>';
-        }else if($item['opsi_pengiriman'] == 'dikirim' && $item['status'] == 'di gudang') {
-            # dikirim
-            $actionBtn = '<button class="btn btn-xs btn-default text-primary mx-1 shadow" title="Sudah Dikirim">
-                            <i class="fa fa-lg fa-fw fa-check"></i> Sudah Dikirim
+        }else if($item['opsi_pengiriman'] == 'dikirim' && $item['status'] == 'di gudang' && !$item['status'] != 'selesai') {
+            $actionBtn = '<button
+                            class="btn btn-xs btn-default text-primary mx-1 shadow btn-dikirim"
+                            data-toggle="modal"
+                            data-target="#modalDikirim"
+                            data-url="' . route('gudang.transaksi.dikirim', ['id' => $item['id_transaksi']]) . '"
+                            title="Sudah Dikirim">
+                            <i class="fa fa-lg fa-fw fa-box"></i> Kirim
                           </button>';
-        }elseif ($item['opsi_pengiriman'] == 'dikirim' && $item['status'] == 'dikirim') {
-            # sudah dikirim
-            $actionBtn = '<button class="btn btn-xs btn-default text-success mx-1 shadow" title="Sudah Dikirim">
-                            <i class="fa fa-lg fa-fw fa-check"></i> Sudah Diterima
+        }elseif ($item['opsi_pengiriman'] == 'dikirim' && $item['status'] == 'dikirim' && !$item['status'] != 'selesai') {
+            $actionBtn = '<button
+                            class="btn btn-xs btn-default text-success mx-1 shadow btn-diambil"
+                            data-toggle="modal"
+                            data-target="#modalDiambil"
+                            data-url="' . route('gudang.transaksi.diambil', ['id' => $item['id_transaksi']]) . '"
+                            title="Sudah Dikirim">
+                            <i class="fa fa-lg fa-fw fa-check"></i> Diterima
                           </button>' .
-                          '<button class="btn btn-xs btn-default text-warning mx-1 shadow" title="Kembali ke Gudang">
+                          '<button
+                            class="btn btn-xs btn-default text-warning mx-1 shadow btn-kembali"
+                            data-toggle="modal"
+                            data-target="#modalKembali"
+                            data-url="' . route('gudang.transaksi.kembali', ['id' => $item['id_transaksi']]) . '"
+                            title="Kembali ke Gudang">
                             <i class="fa fa-lg fa-fw fa-undo"></i> Kembali ke Gudang
                           </button>'
                           ;
@@ -108,5 +126,9 @@ $config = [
 </x-adminlte-datatable>
 
 {{-- Compressed with style options / fill data using the plugin config --}}
+
+@include('gudang.barang.diambil')
+@include('gudang.barang.dikirim')
+@include('gudang.barang.kembali')
 
 @endsection
