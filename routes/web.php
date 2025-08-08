@@ -34,6 +34,8 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::post('/komoditas', [KomoditasController::class, 'store'])->name('komoditas.store');
     Route::put('/komoditas/{id}', [KomoditasController::class, 'update'])->name('komoditas.update');
     Route::delete('/komoditas/{id}', [KomoditasController::class, 'delete'])->name('komoditas.delete');
+
+    Route::get('/riwayat', [PatunganController::class, 'riwayat'])->name('patungan.riwayat');
 });
 
 
@@ -48,6 +50,8 @@ Route::middleware(['auth', 'role:pengguna'])->prefix('pengguna')->name('pengguna
 
     Route::get('/transaksi', [TransaksiController::class, 'index'])->name('transaksi.index');
     Route::post('/transaksi', [TransaksiController::class, 'store'])->name('transaksi.store');
+
+    Route::get('/riwayat', [TransaksiController::class, 'riwayat'])->name('transaksi.riwayat');
 
     Route::get('/invoice/{id}', [TransaksiController::class, 'invoice'])->name('transaksi.invoice');
 });

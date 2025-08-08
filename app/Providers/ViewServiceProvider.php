@@ -44,6 +44,11 @@ class ViewServiceProvider extends ServiceProvider
                             'url' => '/admin/user',
                             'icon' => 'far fa-fw fa-user',
                         ],
+                        [
+                            'text' => 'riwayat',
+                            'url' => '/admin/riwayat',
+                            'icon' => 'fas fa-fw fa-history',
+                        ]
                     ];
                 }else if ($role === 'pengguna') {
                     $sidebar = [
@@ -56,6 +61,11 @@ class ViewServiceProvider extends ServiceProvider
                             'text' => 'transaksi',
                             'url' => '/pengguna/transaksi',
                             'icon' => 'fas fa-fw fa-cash-register',
+                        ],
+                        [
+                            'text' => 'riwayat',
+                            'url' => '/pengguna/riwayat',
+                            'icon' => 'fas fa-fw fa-history',
                         ]
                     ];
                 }elseif ($role === 'gudang') {
@@ -69,7 +79,7 @@ class ViewServiceProvider extends ServiceProvider
                             'text' => 'barang di gudang',
                             'url' => '/gudang/barang',
                             'icon' => 'fas fa-fw fa-box-open',
-                        ]
+                        ],
                     ];
                 }
 

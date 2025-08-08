@@ -10,7 +10,7 @@ class PatunganController extends Controller
 {
     public function index()
     {
-        $patungan = Patungan::with(['komoditas', 'transaksi'])->get();
+        $patungan = Patungan::with(['komoditas', 'transaksi'])->where('status', '!=', 'selesai')->get();
         $patungan->each(function ($item) {
             $item->total_terkumpul = $item->transaksi->sum('total_patungan');
             $item->presentase = $item->total_terkumpul / $item->total * 100;
@@ -121,5 +121,22 @@ class PatunganController extends Controller
         }
 
         return redirect()->back()->with('success', 'Patungan berhasil diterima dan status diubah menjadi di gudang');
+    }
+
+    public function riwayat()
+    {
+        $patungan = Patungan::with(['komoditas', 'transaksi'])->where('status', 'selesai')->get();
+        $patungan->each(function ($item) {
+            $item->total_terkumpul = $item->transaksi->sum('total_patungan');
+            $item->presentase = $item->total_terkumpul / $item->total * 100;
+            $item->total_transaksi = $item->transaksi->count();
+        });
+
+        $komoditas = Komoditas::get(['id_komoditas', 'nama_komoditas']);
+
+        return view('admin.riwayat.index', [
+            'patungan' => $patungan->toArray(),
+            'komoditas' => $komoditas->toArray()
+        ]);
     }
 }

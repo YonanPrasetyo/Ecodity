@@ -55,7 +55,7 @@ class TransaksiController extends Controller
                         with(['user', 'patungan', 'patungan.komoditas'])
                         ->whereHas('patungan', function ($query) {
                             $query->where('status', 'di gudang');
-                        })
+                        })->where('status', '!=', 'selesai')
                         ->get();
 
         return view('gudang.barang.index', [
@@ -109,7 +109,10 @@ class TransaksiController extends Controller
 
     public function index()
     {
-        $transaksi = Transaksi::with(['patungan.komoditas', 'user'])->where('id_user', Auth::user()->id_user)->get();
+        $transaksi = Transaksi::with(['patungan.komoditas', 'user'])
+                                ->where('status', '!=', 'selesai')
+                                ->where('id_user', Auth::user()->id_user)
+                                ->get();
 
         return view('pengguna.transaksi.index', [
             'transaksi' => $transaksi
@@ -125,5 +128,17 @@ class TransaksiController extends Controller
         ])->setPaper('a4', 'portrait');
 
         return $pdf->stream('invoice.pdf');
+    }
+
+    public function riwayat()
+    {
+        $transaksi = Transaksi::with(['patungan.komoditas', 'user'])
+                                ->where('status', 'selesai')
+                                ->where('id_user', Auth::user()->id_user)
+                                ->get();
+
+        return view('pengguna.riwayat.index', [
+            'transaksi' => $transaksi
+        ]);
     }
 }

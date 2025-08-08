@@ -32,17 +32,6 @@ $config = [
                             <i class="fa fa-lg fa-fw fa-file"></i> Invoice
                         </button>';
 
-        $status = '';
-        if ($item['status'] == 'belum') {
-            $status = '<span class="badge badge-danger">Belum</span>';
-        } elseif ($item['status'] == 'dikirim') {
-            $status = '<span class="badge badge-warning">Dikirim</span>';
-        } elseif ($item['status'] == 'di gudang') {
-            $status = '<span class="badge badge-success">Di Gudang</span>';
-        } else {
-            $status = '<span class="badge badge-secondary">' . ucfirst($item['status']) . '</span>';
-        }
-
         return [
             $index + 1,
             '<strong>'.$item['kode_transaksi'].'</strong>',
@@ -51,7 +40,7 @@ $config = [
             $item['total_patungan'] . ' ' . $item['patungan']['komoditas']['satuan'],
             number_format($item['patungan']['harga_total']),
             $item['opsi_pengiriman'],
-            $status,
+            '<span class="badge badge-success">'. ucfirst($item['status']) .'</span>',
             '<nobr>'. $btnInvoice . '</nobr>',
         ];
     }),
